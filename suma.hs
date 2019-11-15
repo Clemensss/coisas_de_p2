@@ -20,9 +20,28 @@ tam :: [Int] -> Int -> Int
 tam [] count = count
 tam (x:xs) count = tam xs (count+1) 
 
-l = [0,2..10]
+sorted :: [Int] -> Bool
+sorted [x] = True
+sorted (x:xs) = 
+	if x > head xs then False
+	else sorted xs 
+
+bubbleParse :: [Int] -> [Int]
+bubbleParse [x] = [x] 
+bubbleParse (x:xs) = 
+	if (x > (head xs)) then [head xs] ++ bubbleParse ([x] ++ tail xs) 
+	else [x] ++ bubbleParse xs
+
+bubbleSort :: [Int] -> [Int]
+bubbleSort arr = 
+	if sorted l then l
+	else bubbleSort l
+	where l = bubbleParse arr
+
+l = [1..10]
+l2 = [6,2,4,8,3,5,7,10,1,33]
 
 main = do
     
-    let thing = tam l 0 
+    let thing = bubbleSort l2
     print thing
