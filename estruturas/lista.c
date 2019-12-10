@@ -75,7 +75,7 @@ void inverting(node* head)
 {
 	int size = get_size(head);
 	
-	int start = 0; 
+	int start = 1; 
 	int end = size-2;
 	
 	while(start < end)
