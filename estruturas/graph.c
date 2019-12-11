@@ -28,6 +28,10 @@ int is_empty(node *queue);
 void enqueue(node **head, int item);
 void bfs(graph *grafo, int start);
 
+void push(node **head, int item);
+node* pop(node **head);
+void dfs(graph *grafo, int start);
+
 graph* make_graph();
 void add_edge(graph *grafo, int vert1, int vert2);
 void create_graph(graph *grafo);
@@ -36,10 +40,15 @@ void print_visited(graph *grafo);
 
 int main()
 {
+
 	graph *grafo = make_graph();
 	create_graph(grafo);
 	print_graph(grafo);
-	bfs(grafo, 0);
+
+	dfs(grafo, 0);
+	printf("\n");
+
+
     return 0;
 }
 
@@ -109,6 +118,25 @@ void bfs(graph *grafo, int start)
 	printf("\n");
 }
 
+void dfs(graph *grafo, int start)
+{
+	if(!grafo->visited[start])
+	{
+		grafo->visited[start] = 1;
+		printf("%d ", start);
+	}
+	node *temp = grafo->adjlist[start];
+
+	while(temp != NULL)
+	{
+		if(!grafo->visited[temp->item])
+		{
+			dfs(grafo, temp->item);
+		}
+		temp = temp->next;
+	}
+}
+
 void add_edge(graph *grafo, int vert1, int vert2)
 {
 	push_list(&grafo->adjlist[vert1], vert2);
@@ -163,9 +191,23 @@ void enqueue(node **head, int item)
 	push_list(head, item);
 }
 
+void push(node **head, int item)
+{
+	node *new = malloc(sizeof(node));
+	new->next = *head;	
+	new->item = item;
+	*head = new;
+}
+
+node* pop(node **head)
+{
+	return dequeue(head);
+}
+
 node* dequeue(node **head)
 {
 	node *dequeue = *head;	
+	node *new = malloc(sizeof(node));
 	*head = (*head)->next;	
 	return dequeue;
 }
