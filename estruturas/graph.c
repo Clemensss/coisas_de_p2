@@ -95,8 +95,9 @@ void print_visited(graph *grafo)
 void bfs(graph *grafo, int start)
 {	
 	node *queue = make_list();
-	grafo->visited[start];
+	grafo->visited[start] = 1;
 	enqueue(&queue, start);
+
 	while(!is_empty(queue))
 	{
 		node *temp = grafo->adjlist[(dequeue(&queue))->item];
