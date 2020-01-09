@@ -4,8 +4,11 @@
 #include <stdbool.h>
 #include <limits.h>
 
+#define HASH_MAX 100
+
 typedef struct _deque deque_t;
 typedef struct _node   node_t;
+typedef struct _hash   hash_t;
 
 //Guarda um ponteiro pro node anterior, para o proximo node e o valor guardado
 struct _node {
@@ -19,6 +22,12 @@ struct _deque {
   	node_t *front;
   	node_t  *rear;
   	int      size;
+};
+
+struct _hash
+{
+	deque_t *arr[HASH_MAX];
+	int size;
 };
 
 //Cria um node que guarda os valores que s?o enfileirados no deque
@@ -54,44 +63,66 @@ void     erase        (deque_t *deque);
 //Imprime o deque em uma unica linha, com os elementos separados por um espa?o,
 //terminando com um \n, lembrando de respeitar os conceitos de fila.
 void     print        (deque_t *deque);
+int dispercao(int x, int size);
+void print_hash(hash_t *table);
+void add_hash(hash_t *table, int value);
+void init_hash(hash_t *table);
 
-int main() {
- 	int i, num;
-  	scanf("%d", &num);
-  
-  	deque_t* deque = construct();
-  	int vector[num];
-  	for(i = 0; i < num; ++i)
-      	scanf("%d", &vector[i]);
-  
-  	for(i = 0; i < num; ++i)
-      	enqueue_rear(deque, vector[i]);
-  
- 	printf("%d\n", front(deque));
-  	printf("%d\n", rear (deque));
-  
-  	if(!empty(deque))
-  		printf("The size of the deque %d\n", size(deque));
-  	else
-       	printf("The deque is empty\n");
-  	
-    scanf("%d", &num);
-    for(i = 0; i < num; ++i)
-       enqueue_front(deque, i);
-  	print(deque);
-    dequeue_front(deque);
-    print(deque);
-    dequeue_rear (deque);
-    print(deque);
-    
-  	erase(deque);
-  	for(i = 0; i < 3; ++i)
-  		enqueue_rear(deque, i);
-  		
-  	print(deque);
-    destruct(deque);
-       
+int main() 
+{
+	int i, j;
+	int coisa, thing;
+	scanf("%d\n", &coisa);
+	for(i=0; i < coisa; i++)
+	{
+		int size;
+		scanf("%d %d\n", &size, &thing);
+
+		hash_t *table;
+		table->size = size;
+		init_hash(table);
+		for(j=0; j < thing; j++)
+		{
+			int num;
+			scanf("%d", &num);
+			add_hash(table, num);
+
+		}
+
+		print_hash(table);
+		printf("\n");
+	}
 	return 0;
+}
+
+void print_hash(hash_t *table)
+{
+	int i;
+	for(i=0; i < table->size; i++)
+	{
+		printf("%d -> ", i);
+		print(table->arr[i]);
+	}
+}
+
+void init_hash(hash_t *table)
+{
+	int i;
+	for(i=0; i < table->size; i++)
+	{
+		table->arr[i] = construct();
+	}
+}
+
+void add_hash(hash_t *table, int value)
+{
+	int index = dispercao(value, table->size);
+	enqueue_rear(table->arr[index], value);
+}
+
+int dispercao(int x, int size)
+{
+	return x % size;
 }
 
 void erase(deque_t *deque)
@@ -105,12 +136,14 @@ void print(deque_t *deque)
 {
 	node_t *temp = deque->front;
 
-	while(temp->next != NULL)
+	while(temp != NULL)
 	{
-		printf("%d ", temp->value);
+		printf("%d -> ", temp->value);
 		temp = temp->next;
 	}
-	printf("%d\n", temp->value);
+	char c = 92;
+	printf("%c", c);
+	printf("\n");
 }
 
 void dequeue_front(deque_t *deque)
