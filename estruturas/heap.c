@@ -84,6 +84,7 @@ void heapsort(int arr[], int n)
         add_heap(heap, p, num);
     }
 
+    max_heapify(heap);
     for(int i = (n-1); i >= 0; i--)
     {
         printf("Estado Atual da Heap:");
@@ -154,7 +155,6 @@ void add_heap(heap_t *heap, void *p, int prio)
         //realloc_heap(heap);
     }
 
-    max_heapify(heap);
 }
 
 p_node_t* new_node(void *p, int prio)
@@ -187,7 +187,7 @@ void max_heapify(heap_t *heap)
     if(heap->size > 3)
     {
         int i; 
-        for(i = (heap->size -1)/2; i > 0 ; i--)
+        for(i = heap->size/2; i > 0 ; i--)
         {
             heapify(heap, i);
         }

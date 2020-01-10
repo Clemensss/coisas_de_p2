@@ -1,0 +1,29 @@
+﻿Estado inicial: 25 | 33 | 12 | 27 | 11 | 98 | 89 | 220 | 212 | 314 | 150 | 112 | 11 | 330
+Estado Atual da Heap: 330 | 314 | 112 | 220 | 150 | 98 | 89 | 27 | 212 | 11 | 33 | 25 | 11 | 12
+Maior elemento neste passo: 330
+Estado Atual da Heap: 314 | 220 | 112 | 212 | 150 | 98 | 89 | 27 | 12 | 11 | 33 | 25 | 11
+Maior elemento neste passo: 314
+Estado Atual da Heap: 220 | 212 | 112 | 27 | 150 | 98 | 89 | 11 | 12 | 11 | 33 | 25
+Maior elemento neste passo: 220
+Estado Atual da Heap: 212 | 150 | 112 | 27 | 33 | 98 | 89 | 11 | 12 | 11 | 25
+Maior elemento neste passo: 212
+Estado Atual da Heap: 150 | 33 | 112 | 27 | 25 | 98 | 89 | 11 | 12 | 11
+Maior elemento neste passo: 150
+Estado Atual da Heap: 112 | 33 | 98 | 27 | 25 | 11 | 89 | 11 | 12
+Maior elemento neste passo: 112
+Estado Atual da Heap: 98 | 33 | 89 | 27 | 25 | 11 | 12 | 11
+Maior elemento neste passo: 98
+Estado Atual da Heap: 89 | 33 | 12 | 27 | 25 | 11 | 11
+Maior elemento neste passo: 89
+Estado Atual da Heap: 33 | 27 | 12 | 11 | 25 | 11
+Maior elemento neste passo: 33
+Estado Atual da Heap: 27 | 25 | 12 | 11 | 11
+Maior elemento neste passo: 27
+Estado Atual da Heap: 25 | 11 | 12 | 11
+Maior elemento neste passo: 25
+Estado Atual da Heap: 12 | 11 | 11
+Maior elemento neste passo: 12
+Estado Atual da Heap: 11 | 11
+Maior elemento neste passo: 11
+Estado Atual da Heap: 11
+Resultado Final: 11 | 11 | 12 | 25 | 27 | 33 | 89 | 98 | 112 | 150 | 212 | 220 | 314 | 330

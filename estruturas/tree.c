@@ -4,6 +4,8 @@
 typedef struct Tree_node
 {
 	int item;
+	int valor;
+	int level;
 	struct Tree_node *right;
 	struct Tree_node *left;
 } 
@@ -19,20 +21,82 @@ tree_node *make_tree();
 tree_node *lisp_tree(char str[], int *index);
 void isitbb(tree_node *root, int *fake);
 
+void add_bb(tree_node **root, int item);
+tree_node* search_node(tree_node *root, int item);
+int assign(tree_node *root, int count, int arr[], int menor[]);
+
 int main()
 {
-	tree_node *root = make_tree();
-	
-	char *str;
-	size_t len = 0;
-	getline(&str, &len, stdin);
+	int count, n1, n2, n3;
 
-	int num = 0;
-	root = lisp_tree(str, &num);
+	scanf("%d", &count);
 	
-	int bool = 1;
-	isitbb(root, &bool);
-	printf(bool ? "VERDADEIRO\n" : "FALSO\n");
+	tree_node * nodearr[count];
+	for (int i = 0; i < count; i++)
+	{
+		scanf("%d%d%d\n", &n1, &n2, &n3);
+
+		tree_node *root = create_tree(i, NULL, NULL);
+		tree_node *node1;
+		if(n2 != -1)
+			node1 = create_tree(n2, NULL, NULL);
+		else
+			node1 = NULL;
+
+		tree_node *node2;
+		if(n3 != -1)
+			node2 = create_tree(n3, NULL, NULL);
+		else
+			node2 = NULL;
+
+		root->left = node1;
+		root->right = node2;
+		root->valor = n1;
+
+		nodearr[i] = root;
+	}
+
+	for (int i = 0; i < count; i++)
+	{
+		tree_node *node = nodearr[i];
+		int index;
+
+		if(node->left)
+		{
+			index = node->left->item;
+			node->left = nodearr[index];
+		}
+
+		if(node->right)
+		{
+			index = node->right->item;
+			node->right = nodearr[index];
+		}
+
+	}
+
+	int size = 100;
+	int arr[size];
+	int menor[size];
+
+	for (int i = 0; i <size; i++)
+	{
+		arr[i] = 0;
+	}
+
+	for (int i = 0; i <size; i++)
+	{
+		menor[i] = __INT16_MAX__;
+	}
+
+	int num = assign(nodearr[0], 0, arr, menor);
+	
+	for (int i = 0; i <num; i++)
+	{
+		int big = arr[i];
+		int smalls = menor[i];
+		printf("Nivel %d: Maior = %d, Menor = %d\n", i, big, smalls);
+	}
 
     return 0;
 }
@@ -42,26 +106,61 @@ tree_node *make_tree()
 	return NULL;
 }
 
-void isitbb(tree_node *root, int *fake)
+int assign(tree_node *root, int count, int arr[], int menor[])
 {
-	if(root->left != NULL) 
+	if(root == NULL)
 	{
-		if(root->left->item > root->item) 
-		{
-			*fake = 0;
-			return;
-		}
-		isitbb(root->left, fake);
+		return count;
 	}
 
-	if(root->right != NULL) 
+	root->level = count;
+
+	if(root->valor > arr[count])
 	{
-		if(root->right->item > root->item) 
-		{
-			*fake = 0;
-			return;
-		}
-		isitbb(root->right, fake);
+		arr[count] = root->valor;
+	}
+
+	if(root->valor < menor[count])
+	{
+		menor[count] = root->valor;
+	}
+
+	int a = assign(root->left, count+1, arr, menor);
+	int b = assign(root->right, count+1, arr, menor);
+
+	return (a > b) ? a : b;
+}
+
+tree_node* search_node(tree_node *node, int key)
+{
+	if (node == NULL)
+		return NULL;
+
+	else if (node->item == key)
+		return node;
+	else 
+	{
+		tree_node *left = search_node(node->left, key);
+		return left? left: search_node(node->right, key);
+	} 
+}
+
+void add_bb(tree_node **root, int item)
+{
+	if(*root == NULL)
+	{
+		tree_node* node = create_tree(item, NULL, NULL);
+		*root = node;
+		return;
+	}
+
+	else if(item > (*root)->item)
+	{
+			add_bb(&(*root)->right, item);
+	}
+	else 
+	{
+			add_bb(&(*root)->left, item);
 	}
 }
 
@@ -145,14 +244,20 @@ tree_node *create_tree(int item, tree_node *left, tree_node *right)
 
 void print_tree(tree_node *root)
 {
+	printf(" (");
 	if(root != NULL)	
 	{
-		printf("%d ", root->item);
+		printf(" %d ", root->level);
 		print_tree(root->left);
 		print_tree(root->right);
+		printf(") ");
+	}
+	else 
+	{
+		printf(") ");
+		return;
 	}
 }
-
 void add_node(tree_node **root, int item)
 {
 	if(*root != NULL)	
